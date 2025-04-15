@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Asistencia Escolar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f8fa;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+    }
+    .menu {
+      position: relative;
+    }
+    .menu button {
+      background: #3498db;
+      color: white;
+      padding: 14px 20px;
+      border: none;
+      cursor: pointer;
+    }
+    .menu-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    .menu-content div {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+    .menu-content div:hover {
+      background-color: #f1f1f1;
+    }
+    .menu:hover .menu-content {
+      display: block;
+    }
+    section {
+      padding: 20px;
+      display: none;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    input, button {
+      margin-top: 10px;
+      padding: 10px;
+    }
+    button {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Sistema de Asistencia Escolar</h1>
+</header>
+
+<nav>
+  <div class="menu">
+    <button>Menú</button>
+    <div class="menu-content">
+      <div onclick="showSection('registro')">Registrar Alumno</div>
+      <div onclick="showSection('asistencia')">Tomar Asistencia</div>
+      <div onclick="showSection('consulta')">Consulta para Padres</div>
+    </div>
+  </div>
+</nav>
+
+<section id="registro">
+  <h2>Registro de Alumno (Acceso restringido)</h2>
+  <form onsubmit="return loginRegistro(event)">
+    <input type="text" placeholder="Usuario" id="usuarioRegistro" required>
+    <input type="password" placeholder="Contraseña" id="passRegistro" required>
+    <button type="submit">Entrar</button>
+  </form>
+  <div id="registroForm" style="display:none;">
+    <form onsubmit="alert('Alumno registrado y QR generado')">
+      <input type="text" placeholder="CURP del alumno" required>
+      <input type="text" placeholder="Nombre completo" required>
+      <button type="submit">Registrar Alumno y Generar QR</button>
+    </form>
+  </div>
+</section>
+
+<section id="asistencia">
+  <h2>Tomar Asistencia (Maestro)</h2>
+  <form onsubmit="return loginAsistencia(event)">
+    <input type="text" placeholder="Usuario" id="usuarioAsistencia" required>
+    <input type="password" placeholder="Contraseña" id="passAsistencia" required>
+    <button type="submit">Entrar</button>
+  </form>
+  <div id="asistenciaForm" style="display:none;">
+    <form onsubmit="alert('Asistencia enviada')">
+      <input type="text" placeholder="CURP desde QR" required>
+      <button type="submit">Registrar Asistencia</button>
+    </form>
+  </div>
+</section>
+
+<section id="consulta">
+  <h2>Consulta para Padres</h2>
+  <form onsubmit="alert('Asistencias mostradas')">
+    <input type="text" placeholder="CURP del alumno" required>
+    <button type="submit">Consultar Asistencia</button>
+  </form>
+</section>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function loginRegistro(e) {
+    e.preventDefault();
+    const user = document.getElementById('usuarioRegistro').value;
+    const pass = document.getElementById('passRegistro').value;
+    if (user === "admin" && pass === "admin123") {
+      document.getElementById('registroForm').style.display = "block";
+    } else {
+      alert("Usuario o contraseña incorrectos");
+    }
+  }
+
+  function loginAsistencia(e) {
+    e.preventDefault();
+    const user = document.getElementById('usuarioAsistencia').value;
+    const pass = document.getElementById('passAsistencia').value;
+    if (user === "maestro" && pass === "maestro123") {
+      document.getElementById('asistenciaForm').style.display = "block";
+    } else {
+      alert("Acceso denegado");
+    }
+  }
+</script>
+
+</body>
+</html>
